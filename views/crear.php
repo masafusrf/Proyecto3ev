@@ -25,7 +25,7 @@
         <input type="number" name="numeroTeclas"><br><br>
         Tipo de piano:<br>
         <select type="text" name="tipoPiano">
-            <option value="" selected disabled hidden>Selecciona una opción</option>
+            <option value=Null>-</option>
             <option value="Cola">Cola</option>
             <option value="Pared">Pared</option>
             <option value="Digital">Digital</option>
@@ -34,7 +34,7 @@
         <input type="number" name="numeroCuerdas"><br><br>
         Es eléctrica:<br>
         <select type="number" name="esElectrica" required>
-            <option value="" selected disabled hidden>Selecciona una opción</option>
+            <option value=Null>-</option>
             <option value=1>Sí</option>
             <option value=0>No</option>
         </select><br><br>
