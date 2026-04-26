@@ -10,6 +10,9 @@
         case 'listar':
             $controller->listar();
             break;
+        case 'crear':
+            $controller->agregar();
+            break;
         case 'editar':
             $controller->editar();
             break;

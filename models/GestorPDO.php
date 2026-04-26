@@ -24,6 +24,35 @@
     
         }
 
+        public function agregar($instrumento){
+            try{
+                if ($instrumento instanceof Piano) {
+                    $sql= "INSERT INTO instrumento (tipo, marca, modelo, precioBase, numeroTeclas, tipoPiano) VALUES (:tipo, :marca, :modelo, :precioBase, :numeroTeclas, :tipoPiano)";
+                    $stmt= $this->conn->prepare($sql);
+                    $stmt->bindValue(':tipo', "Piano");
+                    $stmt->bindValue(':marca', $instrumento->getMarca());
+                    $stmt->bindValue(':modelo', $instrumento->getModelo());
+                    $stmt->bindValue(':precioBase', $instrumento->getPrecioBase());
+                    $stmt->bindValue(':numeroTeclas', $instrumento->getNumeroTeclas());
+                    $stmt->bindValue(':tipoPiano', $instrumento->getTipoPiano());
+                } else{
+                    $sql= "INSERT INTO instrumento (tipo, marca, modelo, precioBase, numeroCuerdas, esElectrica) VALUES (:tipo, :marca, :modelo, :precioBase, :numeroCuerdas, :esElectrica)";
+                    $stmt= $this->conn->prepare($sql);
+                    $stmt->bindValue(':tipo', "Guitarra");
+                    $stmt->bindValue(':marca', $instrumento->getMarca());
+                    $stmt->bindValue(':modelo', $instrumento->getModelo());
+                    $stmt->bindValue(':precioBase', $instrumento->getPrecioBase());
+                    $stmt->bindValue(':numeroCuerdas', $instrumento->getNumeroCuerdas());
+                    $stmt->bindValue(':esElectrica', $instrumento->getEsElectrica());
+                }
+
+                return $stmt->execute();
+                
+            } catch(PDOException $e){
+                return false;
+            }
+        }
+
         public function buscar($id){
             $sql = 'SELECT * FROM instrumento WHERE id = :id';
             $stmt = $this->conn->prepare($sql);
