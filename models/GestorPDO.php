@@ -101,6 +101,13 @@
             }
 
         }
+
+        public function eliminar($id) {
+            $sql="DELETE FROM instrumento WHERE id=:id";
+            $stmt=$this->conn->prepare($sql);
+            $stmt->bindValue(':id',$id);
+            return $stmt->execute();
+        }
     }
 
 ?>

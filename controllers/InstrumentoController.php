@@ -59,6 +59,13 @@
 
             include "views/editar.php";
         }
+
+        public function eliminar() {
+            $id = $_GET['id'] ?? null;
+            $this->gestor->eliminar($id);
+            header("Location: index.php");
+        exit;
+    }
     }
 
 ?>
