@@ -22,6 +22,7 @@
             <th>Es eléctrica</th>
             <th>Número de teclas</th>
             <th>Tipo de piano</th>
+            <th>Acciones</th>
             <!-- FALTA LO DEL USUARIO. MIRAR PROYECTO CONCESIONARIO -->
         </tr>
 
