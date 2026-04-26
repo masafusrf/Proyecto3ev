@@ -16,9 +16,6 @@
         case 'editar':
             $controller->editar();
             break;
-        case 'modificar':
-            $controller->modificar();
-            break;
         case 'eliminar':
             $controller->eliminar();
             break;

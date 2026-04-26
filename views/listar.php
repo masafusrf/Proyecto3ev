@@ -37,6 +37,11 @@
             <td><?= ($p instanceof Guitarra) ? ($p->getEsElectrica() ? "Sí" : "No") : "--"; ?></td>
             <td><?= ($p instanceof Piano) ? $p->getNumeroTeclas() : "--"; ?></td>
             <td><?= ($p instanceof Piano) ? $p->getTipoPiano() : "--"; ?></td>
+            <td>
+                <a href="index.php?accion=editar&id=<?= $p->getId() ?>">Editar</a>
+                
+                <a href="index.php?accion=eliminar&id=<?= $p->getId() ?>">Eliminar</a>
+            </td>
             
             <!-- FALTA LO DEL USUARIO. MIRAR PROYECTO CONCESIONARIO -->
             

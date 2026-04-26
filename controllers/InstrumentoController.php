@@ -36,6 +36,29 @@
 
             include "views/crear.php";
         }
+
+        public function editar() {
+            $id = $_GET['id'] ?? null;
+            $instrumento=($this->gestor->buscar($id));
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $instrumento->setMarca($_POST['marca']);
+                $instrumento->setModelo($_POST['modelo']);
+                $instrumento->setPrecioBase($_POST['precioBase']);
+                if ($instrumento instanceof Piano){
+                    $instrumento->setNumeroTeclas($_POST['numeroTeclas']);
+                    $instrumento->setTipoPiano($_POST['tipoPiano']);
+                }else{
+                    $instrumento->setNumeroCuerdas($_POST['numeroCuerdas']);
+                    $instrumento->setEsElectrica($_POST['esElectrica']);
+                }
+                
+                $this->gestor->actualizar($instrumento);
+                header("Location: index.php");
+                exit;
+            }
+
+            include "views/editar.php";
+        }
     }
 
 ?>
