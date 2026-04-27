@@ -108,6 +108,35 @@
             $stmt->bindValue(':id',$id);
             return $stmt->execute();
         }
+
+        //gestión de usuarios
+        public function registrarUsuario(Usuario $usuario){
+            try {
+                $sql="INSERT INTO usuario (email, password) VALUES (:email, :password)";
+                $stmt= $this->conn->prepare($sql);
+
+                $stmt->bindValue(':email', $usuario->getEmail());
+                $stmt->bindValue(':password', $usuario->getPassword());
+
+                return $stmt->execute();
+
+            } catch (PDOException $e) {
+                echo $e->getMessage() . $e->getCode();
+            }
+        }
+
+        public function buscarUsuarioPorEmail($email){
+            $sql= "SELECT * FROM usuario WHERE email = :email LIMIT 1";
+            $stmt=$this->conn->prepare($sql);
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+
+            $value=$stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($value) {
+                return new Usuario($value['email'], $value['password'], $value['id']);
+            } return false;
+        }
     }
 
 ?>

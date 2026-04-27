@@ -4,20 +4,59 @@
     
     $gestor = new GestorPDO();
     $controller = new InstrumentoController($gestor);
-    $accion = $_GET['accion'] ?? 'listar';
+    $usuarioController= new UsuarioController($gestor);
 
-    switch ($accion) { 
-        case 'listar':
-            $controller->listar();
-            break;
-        case 'crear':
-            $controller->agregar();
-            break;
-        case 'editar':
-            $controller->editar();
-            break;
-        case 'eliminar':
-            $controller->eliminar();
-            break;
+    $accion = $_GET['accion'] ?? 'index';
+
+
+    //cookies
+
+    if (!isset($_SESSION['usuario_id']) && isset($_COOKIE['usuario_login'])) {
+        
+        $emailRecuperado=base64_decode($_COOKIE['usuario_login']);
+
+        $usuario=$gestor->buscarUsuarioPorEmail($emailRecuperado);
+
+        if ($usuario) {
+            $_SESSION['usuario_id']=$usuario->getId();
+            $_SESSION['usuarioEmail']=$usuario->getEmail();
+        } else{
+            setcookie('usuario_login', '', time() - 3600, '/');
+        }
     }
+
+
+    //acciones
+
+
+    switch ($accion) {
+        case 'login':
+            $usuarioController->login();
+            break;
+
+        case 'alta':
+            $usuarioController->alta();
+            break;
+
+        case 'logout':
+            $usuarioController->logout();
+            break;
+        //gestión instrumentos
+        case 'crear':
+        case 'editar':
+        case 'eliminar':
+            if (!isset($_SESSION['usuario_id'])) {
+                header('Location: index.php?accion=login');
+                exit;
+            }
+            //si está autenticado:
+            if($accion === 'crear') $controller->agregar();
+            if($accion === 'editar') $controller->editar();
+            if($accion === 'eliminar') $controller->eliminar();
+            break;
+        default:
+            $controller->listar();
+
+    }
+
 ?>

@@ -6,7 +6,15 @@
 <body>
     <h1>Tienda de instrumentos</h1>
 
-    <!-- FALTA LO DEL USUARIO. MIRAR PROYECTO CONCESIONARIO -->
+    <div style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px;">
+        <?php if (isset($_SESSION['usuario_id'])): ?>
+            Bienvenido, <b><?= $_SESSION['usuarioEmail'] ?></b> | 
+            <a href="index.php?accion=logout">Cerrar Sesión</a>
+        <?php else: ?>
+            <a href="index.php?accion=login">Iniciar Sesión</a> | 
+            <a href="index.php?accion=alta">Registrarse</a>
+        <?php endif; ?>
+    </div>
 
     <a href="index.php?accion=crear">Agregar instrumento</a><p>
     
@@ -22,8 +30,9 @@
             <th>Es eléctrica</th>
             <th>Número de teclas</th>
             <th>Tipo de piano</th>
-            <th>Acciones</th>
-            <!-- FALTA LO DEL USUARIO. MIRAR PROYECTO CONCESIONARIO -->
+            <?php if (isset($_SESSION['usuario_id'])): ?>
+                <th>Acciones</th>
+            <?php endif; ?>
         </tr>
 
         <?php foreach ($instrumentos as $p): ?>
@@ -38,13 +47,14 @@
             <td><?= ($p instanceof Guitarra) ? ($p->getEsElectrica() ? "Sí" : "No") : "--"; ?></td>
             <td><?= ($p instanceof Piano) ? $p->getNumeroTeclas() : "--"; ?></td>
             <td><?= ($p instanceof Piano) ? $p->getTipoPiano() : "--"; ?></td>
-            <td>
+            
+            <?php if (isset($_SESSION['usuario_id'])): ?>
+                <td>
                 <a href="index.php?accion=editar&id=<?= $p->getId() ?>">Editar</a>
                 
                 <a href="index.php?accion=eliminar&id=<?= $p->getId() ?>">Eliminar</a>
-            </td>
-            
-            <!-- FALTA LO DEL USUARIO. MIRAR PROYECTO CONCESIONARIO -->
+                </td>
+            <?php endif; ?> 
             
         </tr>
         <?php endforeach; ?>
