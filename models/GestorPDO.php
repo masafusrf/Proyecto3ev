@@ -1,14 +1,16 @@
 <?php
 
-    class GestorPDO extends Connection{
+    class GestorPDO{
+
+        private $db;
 
         public function __construct(){
-            parent::__construct();
+            $this->db =Connection::getInstance()->getConn();
         }
 
         public function listar(){
             $consulta= "SELECT * FROM instrumento";
-            $rtdo=$this->conn->query($consulta);
+            $rtdo=$this->db->query($consulta);
             $arrayInstrumentos=[];
 
             while ($value = $rtdo->fetch(PDO::FETCH_ASSOC)){
@@ -28,7 +30,7 @@
             try{
                 if ($instrumento instanceof Piano) {
                     $sql= "INSERT INTO instrumento (tipo, marca, modelo, precioBase, numeroTeclas, tipoPiano) VALUES (:tipo, :marca, :modelo, :precioBase, :numeroTeclas, :tipoPiano)";
-                    $stmt= $this->conn->prepare($sql);
+                    $stmt= $this->db->prepare($sql);
                     $stmt->bindValue(':tipo', "Piano");
                     $stmt->bindValue(':marca', $instrumento->getMarca());
                     $stmt->bindValue(':modelo', $instrumento->getModelo());
@@ -37,7 +39,7 @@
                     $stmt->bindValue(':tipoPiano', $instrumento->getTipoPiano());
                 } else{
                     $sql= "INSERT INTO instrumento (tipo, marca, modelo, precioBase, numeroCuerdas, esElectrica) VALUES (:tipo, :marca, :modelo, :precioBase, :numeroCuerdas, :esElectrica)";
-                    $stmt= $this->conn->prepare($sql);
+                    $stmt= $this->db->prepare($sql);
                     $stmt->bindValue(':tipo', "Guitarra");
                     $stmt->bindValue(':marca', $instrumento->getMarca());
                     $stmt->bindValue(':modelo', $instrumento->getModelo());
@@ -55,7 +57,7 @@
 
         public function buscar($id){
             $sql = 'SELECT * FROM instrumento WHERE id = :id';
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
 
@@ -74,7 +76,7 @@
             try{
                 if ($instrumento instanceof Piano) {
                     $sql="UPDATE instrumento SET tipo=:tipo, marca=:marca, modelo=:modelo, precioBase=:precioBase, numeroTeclas=:numeroTeclas, tipoPiano=:tipoPiano WHERE id= :id";
-                    $stmt= $this->conn->prepare($sql);
+                    $stmt= $this->db->prepare($sql);
                     $stmt->bindValue(':id', $instrumento->getId());
                     $stmt->bindValue(':tipo', "Piano");
                     $stmt->bindValue(':marca', $instrumento->getMarca());
@@ -84,7 +86,7 @@
                     $stmt->bindValue(':tipoPiano', $instrumento->getTipoPiano());
                 }else{
                     $sql="UPDATE instrumento SET tipo=:tipo, marca=:marca, modelo=:modelo, precioBase=:precioBase, numeroCuerdas=:numeroCuerdas, esElectrica=:esElectrica WHERE id = :id";
-                    $stmt= $this->conn->prepare($sql);
+                    $stmt= $this->db->prepare($sql);
                     $stmt->bindValue(':id', $instrumento->getId());
                     $stmt->bindValue(':tipo', "Guitarra");
                     $stmt->bindValue(':marca', $instrumento->getMarca());
@@ -104,7 +106,7 @@
 
         public function eliminar($id) {
             $sql="DELETE FROM instrumento WHERE id=:id";
-            $stmt=$this->conn->prepare($sql);
+            $stmt=$this->db->prepare($sql);
             $stmt->bindValue(':id',$id);
             return $stmt->execute();
         }
@@ -113,7 +115,7 @@
         public function registrarUsuario(Usuario $usuario){
             try {
                 $sql="INSERT INTO usuario (email, password) VALUES (:email, :password)";
-                $stmt= $this->conn->prepare($sql);
+                $stmt= $this->db->prepare($sql);
 
                 $stmt->bindValue(':email', $usuario->getEmail());
                 $stmt->bindValue(':password', $usuario->getPassword());
@@ -127,7 +129,7 @@
 
         public function buscarUsuarioPorEmail($email){
             $sql= "SELECT * FROM usuario WHERE email = :email LIMIT 1";
-            $stmt=$this->conn->prepare($sql);
+            $stmt=$this->db->prepare($sql);
             $stmt->bindValue(':email', $email);
             $stmt->execute();
 

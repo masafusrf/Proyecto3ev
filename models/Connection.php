@@ -3,9 +3,17 @@
     class Connection{
         protected $conn;
         private $configFile = "conf.json";
+        private static $instance=null;
 
-        public function __construct(){
+        private function __construct(){
             $this->makeConnection();
+        }
+
+        public static function getInstance(){
+            if (self::$instance===null) {
+                self::$instance= new self();
+            }
+            return self::$instance;
         }
 
         private function makeConnection(){
