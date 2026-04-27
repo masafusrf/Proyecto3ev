@@ -2,14 +2,51 @@
 <html>
 <head>
     <title>Instrumentos</title>
+    <style>
+        body.claro {
+            background-color: white;
+            color: black;
+        }
+
+        body.oscuro {
+            background-color: black;
+            color: white;
+        }
+
+        body.oscuro a {
+            color: white;
+        }
+
+        body.oscuro table {
+            border-color: white;
+        }
+
+        body.oscuro th,
+        body.oscuro td {
+            border-color: white;
+        }
+
+        body.oscuro div {
+            background-color: #222;
+            color: white;
+        }
+    </style>
 </head>
-<body>
+<body class="<?= $_SESSION['tema'] ?? 'claro' ?>">
     <h1>Tienda de instrumentos</h1>
 
     <div style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px;">
         <?php if (isset($_SESSION['usuario_id'])): ?>
             Bienvenido, <b><?= $_SESSION['usuarioEmail'] ?></b> | 
             <a href="index.php?accion=logout">Cerrar Sesión</a>
+
+        <form method="POST" action="index.php?accion=tema" style="display:inline;">
+            <select name="tema" onchange="this.form.submit()">
+                <option value="claro"  <?= (($_SESSION['tema'] ?? 'claro') === 'claro')  ? 'selected' : '' ?>>Claro</option>
+                <option value="oscuro" <?= (($_SESSION['tema'] ?? 'claro') === 'oscuro') ? 'selected' : '' ?>>Oscuro</option>
+            </select>
+        </form>
+
         <?php else: ?>
             <a href="index.php?accion=login">Iniciar Sesión</a> | 
             <a href="index.php?accion=alta">Registrarse</a>

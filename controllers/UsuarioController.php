@@ -37,6 +37,7 @@
                 if ($usuario && password_verify($passwordPlana, $usuario->getPassword())) {
                     $_SESSION['usuario_id']=$usuario->getId();
                     $_SESSION['usuarioEmail']=$usuario->getEmail();
+                    $_SESSION['tema']=$usuario->getTema();
 
                     if ($recordar) {
                         $token=base64_encode($usuario->getEmail());
@@ -72,6 +73,23 @@
             }
 
             header("Location: index.php?accion=login");
+            exit;
+        }
+
+        public function cambiarTema() {
+            if (!isset($_SESSION['usuario_id'])) {
+                header('Location: index.php?accion=login');
+                exit;
+            }
+
+            $temasValidos = ['claro', 'oscuro'];
+            $nuevo = $_POST['tema'] ?? 'claro';
+            if (!in_array($nuevo, $temasValidos)) $nuevo= 'claro';
+
+            $this->gestor->actualizarTema($_SESSION['usuario_id'], $nuevo);
+            $_SESSION['tema'] = $nuevo;
+
+            header('Location: index.php');
             exit;
         }
     }

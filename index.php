@@ -41,6 +41,10 @@
         case 'logout':
             $usuarioController->logout();
             break;
+
+        case 'tema':
+            $usuarioController->cambiarTema();
+            break;
         //gestión instrumentos
         case 'crear':
         case 'editar':

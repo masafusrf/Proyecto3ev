@@ -136,8 +136,21 @@
             $value=$stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($value) {
-                return new Usuario($value['email'], $value['password'], $value['id']);
+                return new Usuario($value['email'], $value['password'], $value['tema'], $value['id']);
             } return false;
+        }
+
+        public function actualizarTema($idUsuario, $tema) {
+            $temasValidos = ['claro', 'oscuro'];
+            if (!in_array($tema, $temasValidos)) return false;
+
+            $sql  = "UPDATE usuario SET tema=:tema WHERE id=:id";
+            $stmt = $this->db->prepare($sql);
+            
+            $stmt->bindValue(':tema', $tema);
+            $stmt->bindValue(':id', $idUsuario);
+
+            return $stmt->execute();
         }
     }
 
