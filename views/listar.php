@@ -8,34 +8,71 @@
             color: black;
         }
 
+        body.claro tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+
+        body.claro tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
         body.oscuro {
-            background-color: black;
-            color: white;
+            background-color: #121212;
+            color: #e0e0e0;
         }
 
         body.oscuro a {
-            color: white;
+            color: #90caf9;
+            text-decoration: none;
+        }
+
+        body.oscuro a:hover {
+            text-decoration: underline;
         }
 
         body.oscuro table {
-            border-color: white;
+            border-color: #333;
+            background-color: #1e1e1e;
         }
 
-        body.oscuro th,
+        body.oscuro th {
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+
         body.oscuro td {
-            border-color: white;
+            border-color: #333;
+        }
+
+        body.oscuro tr:nth-child(even) {
+            background-color: #1a1a1a;
+        }
+
+        body.oscuro tr:nth-child(odd) {
+            background-color: #151515;
         }
 
         body.oscuro div {
-            background-color: #222;
-            color: white;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        body.oscuro h1 {
+            color: #ffffff;
+        }
+
+        body.oscuro a[href*="accion=crear"],
+        body.oscuro a[href*="editar"],
+        body.oscuro a[href*="eliminar"],
+        body.oscuro a[href*="logout"] {
+            color: #81c784;
         }
     </style>
 </head>
 <body class="<?= $_SESSION['tema'] ?? 'claro' ?>">
     <h1>Tienda de instrumentos</h1>
 
-    <div style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px;">
+    <div style="background-color: #787878; padding: 10px; margin-bottom: 20px;">
         <?php if (isset($_SESSION['usuario_id'])): ?>
             Bienvenido, <b><?= $_SESSION['usuarioEmail'] ?></b> | 
             <a href="index.php?accion=logout">Cerrar Sesión</a>
